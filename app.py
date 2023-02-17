@@ -14,7 +14,7 @@ from pycaret.classification import load_model, predict_model
 import pandas as pd
 from flask import Flask, request, render_template, jsonify
 #
-from model import WineQualityDataset
+from model import *
 #
 OPT_VERBOSE_HELP = "Display additional information about execution."
 #
@@ -24,6 +24,8 @@ app = Flask(__name__)
 def get_newest_file(path):
     """ Selects the most recent file created from the `models` directory. """
     files = glob.glob(os.path.join(path, '*.pkl'))
+    if files is None or len(files) <= 0:
+        return None
     return max(files, key=os.path.getctime)
 
 # Check if were are currently running on Heroku
@@ -131,12 +133,15 @@ def main(argv):
     else:
         # Load the latest model
         model_file = get_newest_file(os.path.join(os.getcwd(), "models"))
-        logger.info(f"Selected '{model_file}' as model.")
-        # For some reason, `load_model` appends `.pkl` to the file, so 
-        # we need to remove it.
-        global current_model
-        current_model = load_model(model_file.split('.', maxsplit=1)[0])
-        # Start the server
+        if model_file is not None:
+            logger.info(f"Selected '{model_file}' as model.")
+            # For some reason, `load_model` appends `.pkl` to the file, so 
+            # we need to remove it.
+            global current_model
+            current_model = load_model(model_file.split('.', maxsplit=1)[0])
+            # Start the server
+        else:
+            logger.warning(f"No model available.")
         app.run(port=int(args.port), debug=bool(args.is_debug), threaded=True)
 
 def entry_point():
