@@ -51,26 +51,27 @@ def process():
     # Extract the data from the form
     logger.debug(request.form)
     #
-    return jsonify({
-        "ok": False,
-        "error": "Not implemented"
-    })
+    #Alcohol,Malic_Acid,Ash,Ash_Alcanity,Magnesium,Total_Phenols,Flavanoids,Nonflavanoid_Phenols,Proanthocyanins,Color_Intensity,Hue,OD280,Proline
+    #
+    d = {}
+    for param in request.form.keys():
+        if param in ["Proline"]:
+            d[param] = int(request.form[param])
+        else:
+            d[param] = float(request.form[param])
+
     # Perform guessing here
     score = 0.0
     label = None
     global current_model
     if current_model is not None:
         # Create a sample dataset for prediction
-        data = pd.DataFrame({})
+        data = pd.DataFrame(d)
         predictions = predict_model(current_model, data=data)
         logger.info(predictions)
         score = predictions['Score'].iloc[0]
         label = predictions['Label'].iloc[0]
-        if label == 0:
-            label = "High Quality"
-        else:
-            label = "Standard"
-
+        
         logger.info(f"Predicted quality: {label} ({score}).")
     else:
         logger.error(f"No model defined.")
