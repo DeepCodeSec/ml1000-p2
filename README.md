@@ -1,12 +1,17 @@
 # ml1000-p2
 Project 2 for the ML1000 course
 
+
+## Requirements
+
+The `pycaret` module version 2.3 requires _Python 3.9_. 
+
 ## Installation
 
 To install the _Python_ program locally, first create a virtual environment:
 
 ```sh
-$ python3 -m venv venv
+$ python3.9 -m venv venv
 $ source ./bin/venv/activate
 $ (venv)
 ```
