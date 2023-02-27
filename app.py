@@ -113,10 +113,9 @@ def main(argv):
 
     # Train a new model
     if args.do_train:
-        raise Exception("Not implemented")
         # Load the data
         datafile = os.path.abspath('./data/winequality-white.csv')
-        dataset = None
+        dataset = WhiteWineQualityDataset(datafile)
         logger.info(f"{dataset.nb_rows} row(s) loaded from '{datafile}'.")
         # Generate the model
         logger.info("Selecting best classifier model...")
