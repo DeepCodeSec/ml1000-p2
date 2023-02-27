@@ -4,7 +4,7 @@
 import logging
 import numpy as np
 import pandas as pd
-from pycaret.classification import *
+from pycaret.clustering import *
 #
 logger = logging.getLogger(__name__)
 #
@@ -13,12 +13,12 @@ logger = logging.getLogger(__name__)
 class WhiteWineQualityDataset(object):
     """ Class wrapper around the selected dataset. """
 
-    def __init__(self, _file:str, _target_col:str, _training_size=0.8, _drop_cols=[]) -> None:
+    def __init__(self, _file:str, _training_size=0.8, _drop_cols=[]) -> None:
         self._datafile = _file
         self._df = pd.read_csv(_file, sep=';')
 
         # Remove/clean data items
-        self._df = self._df.drop(columns=["quality"])
+        # self._df = self._df.drop(columns=["quality"])
         # Capping of outliers
         cols = list(self._df.columns)
         tmp = self._df #creating a temporary to avoid accidentally overwriting the original (let's us compare and verify capping)
@@ -35,17 +35,15 @@ class WhiteWineQualityDataset(object):
         # Create the classifier
         # Pass the complete dataset as data and the featured to be predicted as target
         self._clf = setup(
-            data=data_clean, 
-            target=_target_col,
-            data_split_stratify=True,
-            transformation=True,
-            normalize=True,
-            remove_multicollinearity=True,
-            multicollinearity_threshold = 0.7,
-            fix_imbalance=True)
-
-        ml_model = create_model(method='kmeans', num_clusters=3)
-        self._best_model = finalize_model(tune_model(ml_model, optimize='Prec.'))
+            data=data_clean, #make sure to use cleaned data (outliers capped)
+            transformation=True, #applies the power transform to make data more Gaussian-like
+            normalize=True, #transforms the numeric features by scaling them to a given range (default is z-score)
+            remove_multicollinearity=True, #features with the inter-correlations higher than the defined threshold are removed
+            multicollinearity_threshold = 0.7, #by default was 0.9,
+            ignore_features = ['quality'] # Ignore Quality
+        )
+        #ml_model = create_model(model='kmeans', num_clusters=2)
+        self._best_model = create_model(model='kmeans', num_clusters=2)
         logger.info(self._best_model)
 
     @property

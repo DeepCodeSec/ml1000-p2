@@ -8,10 +8,12 @@ import glob
 import pickle
 import argparse
 import logging
-from datetime import datetime
+import datetime
+#from datetime import datetime
 #
-from pycaret.classification import load_model, predict_model
 import pandas as pd
+#
+from pycaret.clustering import load_model, predict_model
 from flask import Flask, request, render_template, jsonify
 #
 from model import *
@@ -114,7 +116,7 @@ def main(argv):
     # Train a new model
     if args.do_train:
         # Load the data
-        datafile = os.path.abspath('./data/winequality-white.csv')
+        datafile = os.path.abspath('./data/wine-clustering.csv')
         dataset = WhiteWineQualityDataset(datafile)
         logger.info(f"{dataset.nb_rows} row(s) loaded from '{datafile}'.")
         # Generate the model
@@ -123,7 +125,7 @@ def main(argv):
         # Print information about the best model
         print(model)
         # Generate a file name based on the current date and time
-        now = datetime.now().strftime("%Y%m%d-%H%M%S")
+        now = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
         file_name = f"{now}"
         file_path = os.path.abspath(os.path.join(".", "models", file_name))
         # Save the best model to a file
