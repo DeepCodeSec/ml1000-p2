@@ -8,10 +8,12 @@ import glob
 import pickle
 import argparse
 import logging
-from datetime import datetime
+import datetime
+#from datetime import datetime
 #
-from pycaret.classification import load_model, predict_model
 import pandas as pd
+#
+from pycaret.clustering import load_model, predict_model, get_config
 from flask import Flask, request, render_template, jsonify
 #
 from model import *
@@ -55,7 +57,10 @@ def process():
     #
     d = {}
     for param in request.form.keys():
+        logger.debug(f"{param:<25}:{request.form[param]}")
         if param in ["Proline"]:
+            # TODO: If a  float is provided, this will trigger an exception
+            # just make sure it's in a try/except
             d[param] = int(request.form[param])
         else:
             d[param] = float(request.form[param])
@@ -66,13 +71,9 @@ def process():
     global current_model
     if current_model is not None:
         # Create a sample dataset for prediction
-        data = pd.DataFrame(d)
+        data = pd.DataFrame(d, index=d.keys())
         predictions = predict_model(current_model, data=data)
         logger.info(predictions)
-        score = predictions['Score'].iloc[0]
-        label = predictions['Label'].iloc[0]
-        
-        logger.info(f"Predicted quality: {label} ({score}).")
     else:
         logger.error(f"No model defined.")
 
@@ -113,10 +114,9 @@ def main(argv):
 
     # Train a new model
     if args.do_train:
-        raise Exception("Not implemented")
         # Load the data
-        datafile = os.path.abspath('./data/winequality-white.csv')
-        dataset = None
+        datafile = os.path.abspath('./data/wine-clustering.csv')
+        dataset = WhiteWineQualityDataset(datafile)
         logger.info(f"{dataset.nb_rows} row(s) loaded from '{datafile}'.")
         # Generate the model
         logger.info("Selecting best classifier model...")
@@ -124,7 +124,7 @@ def main(argv):
         # Print information about the best model
         print(model)
         # Generate a file name based on the current date and time
-        now = datetime.now().strftime("%Y%m%d-%H%M%S")
+        now = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
         file_name = f"{now}"
         file_path = os.path.abspath(os.path.join(".", "models", file_name))
         # Save the best model to a file
