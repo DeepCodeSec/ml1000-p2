@@ -13,7 +13,7 @@ import datetime
 #
 import pandas as pd
 #
-from pycaret.clustering import load_model, predict_model
+from pycaret.clustering import load_model, predict_model, get_config
 from flask import Flask, request, render_template, jsonify
 #
 from model import *
@@ -57,7 +57,10 @@ def process():
     #
     d = {}
     for param in request.form.keys():
+        logger.debug(f"{param:<25}:{request.form[param]}")
         if param in ["Proline"]:
+            # TODO: If a  float is provided, this will trigger an exception
+            # just make sure it's in a try/except
             d[param] = int(request.form[param])
         else:
             d[param] = float(request.form[param])
@@ -68,13 +71,9 @@ def process():
     global current_model
     if current_model is not None:
         # Create a sample dataset for prediction
-        data = pd.DataFrame(d)
+        data = pd.DataFrame(d, index=d.keys())
         predictions = predict_model(current_model, data=data)
         logger.info(predictions)
-        score = predictions['Score'].iloc[0]
-        label = predictions['Label'].iloc[0]
-        
-        logger.info(f"Predicted quality: {label} ({score}).")
     else:
         logger.error(f"No model defined.")
 

@@ -15,7 +15,7 @@ class WhiteWineQualityDataset(object):
 
     def __init__(self, _file:str, _training_size=0.8, _drop_cols=[]) -> None:
         self._datafile = _file
-        self._df = pd.read_csv(_file, sep=';')
+        self._df = pd.read_csv(_file, sep=',')
 
         # Remove/clean data items
         # self._df = self._df.drop(columns=["quality"])
@@ -39,8 +39,7 @@ class WhiteWineQualityDataset(object):
             transformation=True, #applies the power transform to make data more Gaussian-like
             normalize=True, #transforms the numeric features by scaling them to a given range (default is z-score)
             remove_multicollinearity=True, #features with the inter-correlations higher than the defined threshold are removed
-            multicollinearity_threshold = 0.7, #by default was 0.9,
-            ignore_features = ['quality'] # Ignore Quality
+            multicollinearity_threshold = 0.7 #by default was 0.9
         )
         #ml_model = create_model(model='kmeans', num_clusters=2)
         self._best_model = create_model(model='kmeans', num_clusters=2)
