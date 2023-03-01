@@ -15,10 +15,10 @@ class WhiteWineQualityDataset(object):
 
     def __init__(self, _file:str, _training_size=0.8, _drop_cols=[]) -> None:
         self._datafile = _file
-        self._df = pd.read_csv(_file, sep=',')
+        self._df = pd.read_csv(_file, sep=';')
 
         # Remove/clean data items
-        # self._df = self._df.drop(columns=["quality"])
+        self._df = self._df.drop(columns=["Quality"])
         # Capping of outliers
         cols = list(self._df.columns)
         tmp = self._df #creating a temporary to avoid accidentally overwriting the original (let's us compare and verify capping)

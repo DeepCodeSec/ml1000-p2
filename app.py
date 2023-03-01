@@ -53,33 +53,30 @@ def process():
     # Extract the data from the form
     logger.debug(request.form)
     #
-    #Alcohol,Malic_Acid,Ash,Ash_Alcanity,Magnesium,Total_Phenols,Flavanoids,Nonflavanoid_Phenols,Proanthocyanins,Color_Intensity,Hue,OD280,Proline
+    #"Fixed_Acidity";"Volatile_Acidity";"Citric_Acid";"Residual_Sugar";"Chlorides";"Free_Sulfur_Dioxide";"Total_Sulfur_Dioxide";"Density";"pH";"Sulphates";"Alcohol";"Quality"
     #
     d = {}
     for param in request.form.keys():
         logger.debug(f"{param:<25}:{request.form[param]}")
-        if param in ["Proline"]:
-            # TODO: If a  float is provided, this will trigger an exception
-            # just make sure it's in a try/except
-            d[param] = int(request.form[param])
+        if request.form[param] is None or len(request.form[param]) <= 0:
+            d[param] = 0.0
         else:
             d[param] = float(request.form[param])
 
     # Perform guessing here
-    score = 0.0
-    label = None
     global current_model
     if current_model is not None:
         # Create a sample dataset for prediction
-        data = pd.DataFrame(d, index=d.keys())
+        data = pd.DataFrame([d], index=d.keys())
         predictions = predict_model(current_model, data=data)
+        cluster = predictions['Cluster'].iloc[-1]
         logger.info(predictions)
     else:
         logger.error(f"No model defined.")
 
     return jsonify({
-        "label": label,
-        "score": score
+        "ok": True,
+        "data": str(cluster)
     })
 
 def main(argv):
