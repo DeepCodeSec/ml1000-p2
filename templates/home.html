@@ -124,64 +124,53 @@
       <!-- Form to enter new data for classification  -->
       <form id="form_45045" method="post" action="/process">
         <div class="banner">
-          <h1>Project #2</h1>
+          <h1>Wine++</h1>
         </div>
         <p class="top-info">Please enter all required fields.</p>
-        <!-- Alcohol,Malic_Acid,Ash,Ash_Alcanity,Magnesium,Total_Phenols,Flavanoids,Nonflavanoid_Phenols,Proanthocyanins,Color_Intensity,Hue,OD280,Proline -->
+        <!-- "Fixed_Acidity";"Volatile_Acidity";"Citric_Acid";"Residual_Sugar";"Chlorides";"Free_Sulfur_Dioxide";"Total_Sulfur_Dioxide";"Density";"pH";"Sulphates";"Alcohol";"Quality" -->
+        <div class="item">
+          <p>Fixed Acidity<span class="required">*</span></p>
+          <input type="number" step="any" min="0" max="100" name="Fixed_Acidity" placeholder="Fixed Acidity" maxlength=4 pattern="\d*" required />
+        </div>
+        <div class="item">
+          <p>Volatile Acidity<span class="required">*</span></p>
+          <input type="number" step="any" min="0" max="100" name="Volatile_Acidity" placeholder="Volatile Acidity" maxlength=4 pattern="\d*" required />
+        </div>
+        <div class="item">
+          <p>Citric Acid<span class="required">*</span></p>
+          <input type="number" step="any" min="0" max="100" name="Citric_Acid" placeholder="Citric Acid" maxlength=4 pattern="\d*" required />
+        </div>
+        <div class="item">
+          <p>Residual Sugar<span class="required">*</span></p>
+          <input type="number" step="any" min="0" max="100" name="Residual_Sugar" placeholder="Residual Sugar" maxlength=4 pattern="\d*" required />
+        </div>
+        <div class="item">
+          <p>Chlorides<span class="required">*</span></p>
+          <input type="number" step="any" min="0" max="100" name="Chlorides" placeholder="Chlorides" maxlength=4 pattern="\d*" required />
+        </div>
+        <div class="item">
+          <p>Free Sulfur Dioxide<span class="required">*</span></p>
+          <input type="number" step="any" min="0" max="100" name="Free_Sulfur_Dioxide" placeholder="Free Sulfur Dioxide" maxlength=4 pattern="\d*" required />
+        </div>
+        <div class="item">
+          <p>Total Sulfur Dioxide<span class="required">*</span></p>
+          <input type="number" step="any" min="0" max="100" name="Total_Sulfur_Dioxide" placeholder="Total Sulfur Dioxide" maxlength=4 pattern="\d*" required />
+        </div>
+        <div class="item">
+          <p>Density<span class="required">*</span></p>
+          <input type="number" step="any" min="0" max="100" name="Density" placeholder="Density" maxlength=4 pattern="\d*" required />
+        </div>
+        <div class="item">
+          <p>pH<span class="required">*</span></p>
+          <input type="number" step="any" min="0" max="100" name="pH" placeholder="pH" maxlength=4 pattern="\d*" required />
+        </div>
+        <div class="item">
+          <p>Sulphates<span class="required">*</span></p>
+          <input type="number" step="any" min="0" max="100" name="Sulphates" placeholder="Sulphates" maxlength=4 pattern="\d*" required />
+        </div>
         <div class="item">
           <p>Alcohol<span class="required">*</span></p>
-          <input type="number" step="any" min="0" max="100" name="Alcohol" placeholder="Alcohol (%)" maxlength=4 pattern="\d*" required />
-        </div>
-        <div class="item">
-          <p>Malic Acid<span class="required">*</span></p>
-          <input type="number" step="any" min="0" max="100" name="Malic_Acid" placeholder="Malic Acid" maxlength=4 pattern="\d*" required />
-        </div>
-        <div class="item">
-          <p>Ash<span class="required">*</span></p>
-          <input type="number" step="any" min="0" max="100" name="Ash" placeholder="Ash" maxlength=4 pattern="\d*" required />
-        </div>
-        <div class="item">
-          <p>Ash Alcany<span class="required">*</span></p>
-          <input type="number" step="any" min="0" max="100" name="Ash_Alcanity" placeholder="Ash Alcany" maxlength=4 pattern="\d*" required />
-        </div>
-        <div class="item">
-          <p>Magnesium<span class="required">*</span></p>
-          <input type="number" step="any" min="0" max="100" name="Magnesium" placeholder="Magnesium" maxlength=4 pattern="\d*" required />
-        </div>
-        <div class="item">
-          <p>Total_Phenols<span class="required">*</span></p>
-          <input type="number" step="any" min="0" max="100" name="Total_Phenols" placeholder="Total_Phenols" maxlength=4 pattern="\d*" required />
-        </div>
-        <div class="item">
-          <p>Flavanoids<span class="required">*</span></p>
-          <input type="number" step="any" min="0" max="100" name="Flavanoids" placeholder="Flavanoids" maxlength=4 pattern="\d*" required />
-        </div>
-        <div class="item">
-          <p>Nonflavanoid_Phenols<span class="required">*</span></p>
-          <input type="number" step="any" min="0" max="100" name="Nonflavanoid_Phenols" placeholder="Nonflavanoid_Phenols" maxlength=4 pattern="\d*" required />
-        </div>
-        <div class="item">
-          <p>Proanthocyanins<span class="required">*</span></p>
-          <input type="number" step="any" min="0" max="100" name="Proanthocyanins" placeholder="Proanthocyanins" maxlength=4 pattern="\d*" required />
-        </div>
-        <div class="item">
-          <p>Color_Intensity<span class="required">*</span></p>
-          <input type="number" step="any" min="0" max="100" name="Color_Intensity" placeholder="Color_Intensity" maxlength=4 pattern="\d*" required />
-        </div>
-        <div class="item">
-          <p>Hue<span class="required">*</span></p>
-          <input type="number" step="any" min="0" max="100" name="Hue" placeholder="Hue" maxlength=4 pattern="\d*" required />
-        </div>
-        <div class="item">
-          <p>OD280<span class="required">*</span></p>
-          <input type="number" step="any" min="0" max="100" name="OD280" placeholder="OD280" maxlength=4 pattern="\d*" required />
-        </div>
-        <div class="item">
-          <p>Proline<span class="required">*</span></p>
-          <input type="number" step="any" min="0" max="100" name="Proline" placeholder="Proline" maxlength=4 pattern="\d*" required />
-        </div>
-        <div id="spinner-div" class="pt-5">
-          <div class="spinner-border text-primary" role="status"></div>
+          <input type="number" step="any" min="0" max="100" name="Alcohol" placeholder="Alcohol" maxlength=4 pattern="\d*" required />
         </div>
         <div class="container">
           <div class="row mt-2">
@@ -222,7 +211,7 @@
           // dataType: "json",
             success: function (res) {
               console.log(res);
-              $("#message_string").text(res.label); //Write the message
+              $("#message_string").text(res.data); //Write the message
             },
             complete: function () {
               $("#spinner-div").hide(); //Request is complete so hide spinner
